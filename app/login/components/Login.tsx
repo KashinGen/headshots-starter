@@ -19,8 +19,10 @@ export type Inputs = {
 export const Login = ({
   host,
   searchParams,
+  url
 }: {
   host: string | null;
+  url: string | null;
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
   const supabase = createClientComponentClient<Database>();
@@ -37,7 +39,7 @@ export const Login = ({
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsSubmitting(true);
     try {
-      await login(data);
+      await login(data, url);
       setTimeout(() => {
         setIsSubmitting(false);
         toast({

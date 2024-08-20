@@ -31,7 +31,7 @@ export default async function Navbar() {
   const supabase = createClient()
 
   const { data: { user }, error } = await supabase.auth.getUser();
-
+  console.log('navbar',user, error);
   const {
     data: credits,
   } = await supabase.from("credits").select("*").eq("user_id", user?.id ?? '').single()
@@ -43,6 +43,8 @@ export default async function Navbar() {
           <h2 className="font-bold">Headshots AI</h2>
         </Link>
       </div>
+      <span>{`${user}`}</span>
+      <span>{`${error}`}</span>
       {user && (
         <div className="hidden lg:flex flex-row gap-2">
           <Link href="/overview">

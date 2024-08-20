@@ -21,10 +21,11 @@ export default async function LoginPage({
 
   const headersList = headers();
   const host = headersList.get("host");
-
+const protocol = host?.includes("localhost") ? "http" : "https";
+const redirectUrl = `${protocol}://${host}/auth/confirm`;
   return (
     <div className="flex flex-col flex-1 w-full h-[calc(100vh-73px)]">
-      <Login host={host} searchParams={searchParams} />
+      <Login host={host} searchParams={searchParams} url={redirectUrl}/>
     </div>
   );
 }
