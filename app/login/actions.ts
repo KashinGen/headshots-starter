@@ -23,14 +23,15 @@ export async function login(formData: Inputs) {
           emailRedirectTo: redirectUrl,
         },
       })
+      console.log(error)
     
 
-  if (error) {
-    redirect('/error')
-  }
+//   if (error) {
+//     redirect('/error')
+//   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+//   revalidatePath('/', 'layout')
+//   redirect('/')
 }
 
 export async function signup(formData: Inputs) {
