@@ -1,4 +1,5 @@
 import ClientSideModelsList from "@/components/realtime/ClientSideModelsList";
+import { createClient } from "@/lib/supabase/server";
 import { Database } from "@/types/supabase";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -6,11 +7,9 @@ import { cookies } from "next/headers";
 export const dynamic = "force-dynamic";
 
 export default async function Index() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user }, error } = await supabase.auth.getUser()
 
   if (!user) {
     return <div>User not found</div>;

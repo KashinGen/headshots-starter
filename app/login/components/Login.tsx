@@ -10,8 +10,9 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { WaitingForMagicLink } from "./WaitingForMagicLink";
+import { login } from "../actions";
 
-type Inputs = {
+export type Inputs = {
   email: string;
 };
 
@@ -36,7 +37,7 @@ export const Login = ({
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsSubmitting(true);
     try {
-      await signInWithMagicLink(data.email);
+      await login(data);
       setTimeout(() => {
         setIsSubmitting(false);
         toast({

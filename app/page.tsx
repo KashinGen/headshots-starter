@@ -8,16 +8,14 @@ import hero from "/public/hero.png";
 import { Button } from "@/components/ui/button";
 import ExplainerSection from "@/components/ExplainerSection";
 import PricingSection from "@/components/PricingSection";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function Index() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  const { data: { user }, error } = await supabase.auth.getUser()
   if (user) {
     return redirect("/overview");
   }
