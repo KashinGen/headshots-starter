@@ -3,6 +3,7 @@ import { Icons } from "@/components/icons";
 import ClientSideModel from "@/components/realtime/ClientSideModel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/server";
 import { Database } from "@/types/supabase";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -13,11 +14,9 @@ import { FaArrowLeft } from "react-icons/fa";
 export const dynamic = "force-dynamic";
 
 export default async function Index({ params }: { params: { id: string } }) {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = createClient()
 
+  const { data: { user }, error } = await supabase.auth.getUser();
   if (!user) {
     return <Login />;
   }

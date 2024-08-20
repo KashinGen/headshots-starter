@@ -14,6 +14,7 @@ import { Button } from "./ui/button";
 import React from "react";
 import { Database } from "@/types/supabase";
 import ClientSideCredits from "./realtime/ClientSideCredits";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -22,11 +23,14 @@ const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
 export const revalidate = 0;
 
 export default async function Navbar() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  // const supabase = createServerComponentClient<Database>({ cookies });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
+  const supabase = createClient()
+
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   const {
     data: credits,

@@ -1,5 +1,5 @@
+import { createClient } from "@/lib/supabase/server";
 import Login from "../login/page";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
@@ -9,11 +9,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   if (!user) {
     return <Login />;

@@ -1,16 +1,15 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 
 // Configure Vercel Blob (#7 step in the README)
 export async function POST(request: Request): Promise<NextResponse> {
   const body = (await request.json()) as HandleUploadBody;
 
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = createClient()
+
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   try {
     const jsonResponse = await handleUpload({
